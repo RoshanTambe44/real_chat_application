@@ -1,0 +1,188 @@
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: system-ui,   sans-serif;
+}
+
+body, html{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.main-div{
+    border-radius: 10px;
+    overflow: hidden;
+    height:80%;
+    width: 80%;
+    background-color: whitesmoke;
+    box-shadow: black 5px 4px 10px 0px;
+
+    
+}
+
+.chat-user{
+    height: 80%;
+    width: 100%;
+    display: flex;
+
+}
+
+.hader{
+    height: 40px;
+    background-color: #e96345;
+    display: flex;
+    align-items: center;
+    
+}
+
+.hader h2{
+
+ margin-left: 10px;
+
+}
+
+
+
+
+.input-div{
+    /* background-color: aquamarine; */
+    height: 70px;
+    display: none;
+}  
+
+
+.input-msg{
+    height: 100%;
+    width: 60%;
+    margin-left: 20%;
+    /* border: transparent; */
+    background-color: whitesmoke;
+    /* display: none; */
+}
+
+
+.input-div button{
+    /* display: none; */
+    height: 100%;
+    width: 20%;
+    background-color: greenyellow;
+    border: transparent;
+}
+
+
+
+
+/* ----------chat section ------- */
+
+.chat-main-div{
+    height: 100%;
+    width: 80%;
+    display: none;
+    
+}
+
+.chat-hading{
+    /* display: none; */
+    padding: 5px 10px;
+    height: 10%;
+    width: 100%;
+    background-color: orange;
+    
+}
+
+.chat-section{
+    /* display: none; */
+   padding: 20px 10px;
+    height: 90%;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* ----------incoming msg ----- */
+
+.incoming {
+    background-color: #ba4f37;
+    color: black;
+    width: fit-content;
+    max-width: 50%;
+    height: auto;
+    /* border-radius: 10px; */
+    padding: 10px;
+}
+
+/* ----------------outgoing msg ----------- */
+
+
+
+
+.outgoing {
+    
+    background-color: #f8d0c7;
+    color: black;
+     margin-left: auto;
+    
+    
+}
+
+/* .outgoing  p{
+    margin-top: 10px;
+
+    background-color: gray;
+    width: fit-content;
+    max-width: 100%;
+    height: auto;
+   
+    padding: 10px;
+} */
+
+.message{
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    max-width: 300px;
+    position: relative;
+}
+
+.message h5{
+    position: absolute;
+    top: -20px;
+    left: 0;
+    font-size: 14px;
+
+}
+
+
+
+
+/* -----------user section -------- */
+
+.user-section{
+    padding: 10px 5px;
+    height: 100%;
+    width:100%;
+    background-color: whitesmoke;
+}
+
+
+.users{
+    border: black solid 2px;
+    height: 30px;
+    text-align: center;
+    font-size: 6px;
+    margin-top: 5px;
+}
+
+.users h1{
+    margin-top: 5px;
+}
