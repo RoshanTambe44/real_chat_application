@@ -1,160 +1,191 @@
-const socket = io();
-
-// user logic------------------------
+    const socket = io();
 
 
+    //fetch data from document--------------------------
 
+    let textarea = document.querySelector(".input-msg");
+    let button = document.querySelector("button");
+    let chatsection = document.querySelector(".chat-section"); 
+    let blanksection = document.querySelector(".blank-section"); 
 
-let username;
-do
-    {
-       username=prompt("enter your name")
-    }
-
-while(!username )
-
-// socket id connection---------------------
-
-
-
+    let user = document.querySelectorAll(".users");
+    let usersection = document.querySelector(".user-section"); 
+    let chatdiv = document.querySelector(".chat-main-div");
+    let inputdiv = document.querySelector(".input-div");
+    let chatHeadingName = document.querySelector(".chat-hading h1");
+    let chatHeadingId = document.querySelector(".chat-hading h2");
+    let title = document.querySelector(".title");
 
 
 
 
-
+    // user logic------------------------
 
 
 
 
 
-
-// message---------------------------
-
-
-let textarea = document.querySelector(".input-msg");
-let button = document.querySelector("button");
-let chatsection = document.querySelector(".chat-section"); 
-let user = document.querySelector(".users"); 
-let usersection = document.querySelector(".user-section"); 
-let chatdiv = document.querySelector(".chat-main-div");
-let inputdiv = document.querySelector(".input-div");
-
-
-
-
-
-
-
-
-
-
-user.addEventListener("click", function(){
-    chatdiv.style.display = "block";
-    inputdiv.style.display = "block";
-    usersection.style.width = "20%"
-
-          
-
-})
-
-
-
-button.addEventListener("click", function(){
-    
-    sendMessage(textarea.value)  
-
-
-})
-
-textarea.addEventListener("keyup", function(e){
-    if(e.key === "Enter") {
-        sendMessage(e.target.value)  
-    }    
-
-})
-
-// user adding----------------------------------
-function appendId(username, userclass){
-
-    let maindiv = document.createElement("div");
-    let classname = userclass;
-    maindiv.classList.add(classname );
-
-    let markup = `<h1>${username}</h1>`;
-    maindiv.innerHTML = markup;
-    usersection.appendChild(maindiv);
-
- }
-
-//  appendId( );
- 
-
-let connectedUsers ={};
-
-socket.on('connect', () => {
-    let socketId = socket.id
-    console.log(socketId)
-    connectedUsers[socketId] = { username: 'User' };
-
-    console.log(connectedUsers)
-    
-
-    // send to server ---------------------
-                // socket.emit('message', userdet )
-
-    // appendId(userdet, "users")
-
-    
- });
-
-
-
-
-
-
-function sendMessage(msgdet){
-        let msg ={
-            user : `@${username}`,
-            massege : msgdet
+    let username;
+    do
+        {
+        username=prompt("enter your name")
         }
 
+    while(!username )
+
+    //show on title---------------------------------------
+    title.innerHTML = username;
 
 
+    //create variables------------------------------------
+    const connectedUsers ={};
+    var targetSocketId;
+    var socketId;
 
+
+    // socket id--------------------------------------------
+    socket.on('connect', () => {
+        socketId = socket.id
+        console.log(`thhis user id: ${socketId}`)
+        connectedUsers[socketId] = { username: username };
 
         
-        //append
-        appendMassege(msg, "outgoing")
 
         // send to server------------------
-
-        socket.emit('message', msg )
-}
-
-
-function appendMassege (msg,type){
-    let maindiv = document.createElement("div");
-    let classname = type;
-    maindiv.classList.add(classname, "message" );
-
-    let markup = `<h5>${msg.user}</h5>
-    <p>${msg.massege}</p>`;
-    maindiv.innerHTML = markup;
-    chatsection.appendChild(maindiv);
-    textarea.value = ""
-
-
-}
-
-
-
-
-
-
-
-// recive massege ------------------
-
-socket.on("message", (msg)=>{
-        appendMassege(msg, "incoming")
+        socket.emit('new-user', username, socketId )
         
-  } )
+    })
+
+
+
+
+    // Event listener for clicking on a user in the user list
+    // usersection.addEventListener("click", function (e) {
+    //     if (e.target.classList.contains("users")) {
+    //         const clickedUsername = e.target.innerText;
+    //         const clickedUserId = e.target.getAttribute("data-userid");
+
+    //         // Update the target user's information
+    //         targetSocketId = clickedUserId;
+            
+           
+
+    //         // Update the UI to show the chat section
+    //         chatdiv.style.display = "block";
+    //         inputdiv.style.display = "block";
+    //         usersection.style.width = "20%";
+    //         chatHeadingName.innerHTML = clickedUsername;
+    //         chatHeadingId.innerHTML = targetSocketId;
+    //     }
+    // });
+
+    //update user list -------------------------------
+    socket.on('user-list', (users)=>{
+
+        usersection.innerHTML = "" ;
+        user_array = Object.values(users);
+        user_array_keys = Object.keys(users);
+        const currentUserId = getCurrentUserId();
+        
+        const onlineUsers = Object.keys(users).filter(user => user !== currentUserId);
+    
+            onlineUsers.forEach((user) => {
+            let maindiv = document.createElement("div");
+            maindiv.innerText = users[user];
+            maindiv.classList.add('users');
+            usersection.appendChild(maindiv);
+            
+            maindiv.addEventListener("click", function(e){
+            myary = user_array.indexOf(e.target.innerHTML)
+            targetSocketId = user_array_keys[myary] 
+            console.log("clicked user id : "+ targetSocketId)
+            chatdiv.style.display = "block";
+            inputdiv.style.display = "block"; 
+            usersection.style.width = "20%";
+            chatHeadingName.innerHTML = e.target.innerHTML;
+            chatHeadingId.innerHTML = targetSocketId;
+            })
+
+        })
+    })
+
+
+    function getCurrentUserId() {
+    return socketId;
+    }
+
+   
+
+
+
+    button.addEventListener("click", function (){
+        
+        sendMessage(textarea.value, targetSocketId)
+            
+
+    })
+
+    textarea.addEventListener("keyup", function(e){
+        if(e.key === "Enter") {
+            sendMessage(e.target.value, targetSocketId)  
+        }    
+
+    })
+
+
+
+        
+    
+
+
+
+
+
+    //send messege------------------------------------
+    function sendMessage(msgdet, targetSocketId){
+
+            let msg ={
+                user : `@${username}`,
+                massege : msgdet
+            }
+            
+            // console.log(targetSocketId )
+            //append
+            appendMassege(msg, "outgoing")
+            console.log(`from ${username}`,msg)
+            // send to server------------------
+
+            socket.emit('privateMessage', targetSocketId, msg);
+
+        
+    }
+
+
+
+    //append messages-----------------------------------
+    function appendMassege (msg,type){
+        let maindiv = document.createElement("div");
+        let classname = type;
+        maindiv.classList.add(classname, "message" );
+        let markup = `<h5>${msg.user}</h5>
+        <p>${msg.massege}</p>`;
+        maindiv.innerHTML = markup;
+        chatsection.appendChild(maindiv);
+        textarea.value = ""
+
+
+    }
+
+
+
+
+
+
+
+    // recive massege ------------------ 
+    socket.on("privateMessage", (msg, senderId )=>{
+            console.log(`sender ID:${senderId}`, msg); 
+            appendMassege(msg, "incoming");     
+    } )
+
+    
