@@ -7,7 +7,6 @@
     let button = document.querySelector("button");
     let chatsection = document.querySelector(".chat-section"); 
     let blanksection = document.querySelector(".blank-section"); 
-
     let user = document.querySelectorAll(".users");
     let usersection = document.querySelector(".user-section"); 
     let chatdiv = document.querySelector(".chat-main-div");
@@ -21,10 +20,6 @@
 
     // user logic------------------------
 
-
-
-
-
     let username;
     do
         {
@@ -32,6 +27,8 @@
         }
 
     while(!username )
+
+
 
     //show on title---------------------------------------
     title.innerHTML = username;
@@ -59,25 +56,7 @@
 
 
 
-    // Event listener for clicking on a user in the user list
-    // usersection.addEventListener("click", function (e) {
-    //     if (e.target.classList.contains("users")) {
-    //         const clickedUsername = e.target.innerText;
-    //         const clickedUserId = e.target.getAttribute("data-userid");
 
-    //         // Update the target user's information
-    //         targetSocketId = clickedUserId;
-            
-           
-
-    //         // Update the UI to show the chat section
-    //         chatdiv.style.display = "block";
-    //         inputdiv.style.display = "block";
-    //         usersection.style.width = "20%";
-    //         chatHeadingName.innerHTML = clickedUsername;
-    //         chatHeadingId.innerHTML = targetSocketId;
-    //     }
-    // });
 
     //update user list -------------------------------
     socket.on('user-list', (users)=>{

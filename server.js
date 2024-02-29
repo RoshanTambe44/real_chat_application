@@ -27,13 +27,13 @@ io.on('connection', (socket) => {
 
     const senderSocketId = socket.id;
 
-    io.to(targetSocketId).emit('privateMessage', msg, senderSocketId);
+    // io.to(targetSocketId).emit('privateMessage', msg, senderSocketId);
     // const chatRoomId = generateChatRoomId(socket.id, targetSocketId);
 
-    // io.to(targetSocketId).emit('joinRoom', chatRoomId);
+    io.to(targetSocketId).emit('joinRoom', chatRoomId);
     // console.log(chatRoomId);
-    // socket.join(chatRoomId);
-    // io.to(chatRoomId).emit('privateMessage', msg, socket.id);
+    socket.join(chatRoomId);
+    // io.to(chatRoomId).emit('`privateMessage', msg, socket.id);
   });
 
   // Log when a user joins a room
@@ -46,12 +46,16 @@ io.on('connection', (socket) => {
   //   console.log(`${socket.id} sent a private message to ${targetSocketId}`);
   // });
 
+
+
+
   // Event to handle online users
   socket.on('new-user', (username, userid) => {
     users[socket.id] = username;
     socket.broadcast.emit("new-user", username, userid);
     io.emit('user-list', users);
   });
+
 
   // Event to handle disconnected users
   socket.on('disconnect', () => {
@@ -60,6 +64,7 @@ io.on('connection', (socket) => {
     io.emit('user-list', users);
   });
 });
+
 
 // Create function for unique id
 function generateChatRoomId(socketId1, socketId2) {
